@@ -1,0 +1,272 @@
+:root {
+  --vert-citron: #B7D64A;
+  --vert-citron-fonce: #97B238;
+  --vert-dore: #C9A430;
+  --vert-dore-fonce: #A8862021;
+  --gris-tres-clair: #F6F7F3;
+  --blanc: #FFFFFF;
+  --texte-sombre: #22281B;
+  --texte-attenue: #5B6355;
+  --ombre: 0 4px 16px rgba(34, 40, 27, 0.08);
+  --rayon: 14px;
+
+  /* Variables de thème (redéfinies en mode sombre ci-dessous) */
+  --fond-page: var(--gris-tres-clair);
+  --fond-carte: var(--blanc);
+  --texte-principal: var(--texte-sombre);
+  --texte-secondaire: var(--texte-attenue);
+  --fond-sidebar: #1f2917;
+  --bordure-legere: rgba(34, 40, 27, 0.08);
+}
+
+[data-theme="sombre"] {
+  --fond-page: #14170F;
+  --fond-carte: #1D2317;
+  --texte-principal: #EAEFDD;
+  --texte-secondaire: #A9B497;
+  --fond-sidebar: #101309;
+  --bordure-legere: rgba(255, 255, 255, 0.08);
+  --ombre: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background-color: var(--fond-page);
+  color: var(--texte-principal);
+  font-family: "Segoe UI", "Inter", system-ui, -apple-system, sans-serif;
+  transition: background-color .2s ease, color .2s ease;
+}
+
+/* ===== Navbar publique ===== */
+.navbar-dgb {
+  background: var(--fond-carte);
+  box-shadow: var(--ombre);
+}
+.navbar-dgb .navbar-brand {
+  font-weight: 700;
+  color: var(--texte-principal);
+}
+.navbar-dgb .navbar-brand .accent { color: var(--vert-citron-fonce); }
+
+.btn-vert-citron {
+  background-color: var(--vert-citron);
+  border-color: var(--vert-citron);
+  color: var(--texte-sombre);
+  font-weight: 600;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.btn-vert-citron:hover {
+  background-color: var(--vert-citron-fonce);
+  border-color: var(--vert-citron-fonce);
+  color: var(--texte-sombre);
+  transform: translateY(-1px);
+  box-shadow: var(--ombre);
+}
+.btn-vert-dore {
+  background-color: var(--vert-dore);
+  border-color: var(--vert-dore);
+  color: var(--blanc);
+  font-weight: 600;
+}
+.btn-vert-dore:hover { background-color: #ab8a26; border-color: #ab8a26; color: var(--blanc); }
+
+.texte-accent { color: var(--vert-citron-fonce); }
+.texte-dore { color: var(--vert-dore); }
+.bg-vert-citron-clair { background-color: rgba(183, 214, 74, 0.14); }
+
+/* ===== Hero (page d'accueil) ===== */
+.hero-dgb {
+  background: linear-gradient(135deg, #1f2917 0%, #2c3a20 55%, #3a4a25 100%);
+  color: var(--blanc);
+  padding: 6rem 0 5rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero-dgb::after {
+  content: "";
+  position: absolute;
+  right: -10%;
+  top: -20%;
+  width: 60%;
+  height: 140%;
+  background: radial-gradient(circle, rgba(183, 214, 74, 0.25) 0%, transparent 70%);
+}
+.hero-dgb h1 { font-weight: 800; font-size: 2.6rem; }
+.hero-dgb .lead { color: rgba(255,255,255,0.85); }
+
+/* ===== Cartes ===== */
+.carte-dgb {
+  background: var(--fond-carte);
+  border: none;
+  border-radius: var(--rayon);
+  box-shadow: var(--ombre);
+  transition: transform .18s ease, box-shadow .18s ease, background-color .2s ease;
+  animation: apparition .4s ease both;
+}
+.carte-dgb:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(34,40,27,0.12); }
+
+@keyframes apparition {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== KPI (dashboard décideur) ===== */
+.kpi-carte {
+  border-radius: var(--rayon);
+  padding: 1.5rem;
+  background: var(--fond-carte);
+  box-shadow: var(--ombre);
+  border-left: 5px solid var(--vert-citron);
+}
+.kpi-carte.dore { border-left-color: var(--vert-dore); }
+.kpi-valeur { font-size: 2.1rem; font-weight: 800; color: var(--texte-principal); }
+.kpi-label { color: var(--texte-secondaire); font-size: 0.85rem; text-transform: uppercase; letter-spacing: .04em; }
+
+/* ===== Layout applicatif (sidebar + contenu) ===== */
+.app-shell { display: flex; min-height: 100vh; }
+
+.sidebar-dgb {
+  width: 260px;
+  flex-shrink: 0;
+  background: var(--fond-sidebar);
+  color: #E7ECDD;
+  min-height: 100vh;
+  padding: 1.2rem 0.8rem;
+  transition: background-color .2s ease;
+}
+.sidebar-dgb .brand { padding: 0.6rem 0.8rem 1.4rem; font-weight: 700; color: var(--blanc); }
+.sidebar-dgb .brand .accent { color: var(--vert-citron); }
+.sidebar-dgb .nav-link {
+  color: #C7D0B8;
+  border-radius: 10px;
+  padding: 0.6rem 0.9rem;
+  margin-bottom: 2px;
+  font-size: 0.92rem;
+  transition: background .15s ease, color .15s ease;
+}
+.sidebar-dgb .nav-link:hover { background: rgba(183, 214, 74, 0.12); color: var(--blanc); }
+.sidebar-dgb .nav-link.active {
+  background: var(--vert-citron);
+  color: #1f2917;
+  font-weight: 600;
+}
+.sidebar-dgb .nav-link i { width: 20px; margin-right: 8px; }
+
+.contenu-principal { flex-grow: 1; padding: 1.6rem 2rem; max-width: 100%; }
+
+.topbar-dgb {
+  background: var(--fond-carte);
+  border-radius: var(--rayon);
+  box-shadow: var(--ombre);
+  padding: 0.8rem 1.2rem;
+  margin-bottom: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.bouton-theme, .bouton-langue {
+  background: transparent;
+  border: 1px solid var(--bordure-legere);
+  color: var(--texte-principal);
+  border-radius: 8px;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.95rem;
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background-color .15s ease;
+}
+.bouton-theme:hover, .bouton-langue:hover { background: rgba(183, 214, 74, 0.14); }
+
+.badge-role-ADMIN { background: var(--vert-dore); }
+.badge-role-ANALYSTE { background: var(--vert-citron-fonce); }
+.badge-role-DECIDEUR { background: #6c8f3f; }
+
+/* ===== Tableaux ===== */
+.table-dgb thead { background: var(--vert-citron); color: #22281B; }
+.table-dgb tbody tr:hover { background: rgba(183, 214, 74, 0.08); }
+[data-theme="sombre"] .table-dgb { color: var(--texte-principal); }
+[data-theme="sombre"] .table-dgb tbody { background: var(--fond-carte); }
+.meilleur-modele-badge {
+  background: var(--vert-citron);
+  color: #22281B;
+  font-weight: 700;
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 0.75rem;
+}
+
+/* ===== Skeleton loaders ===== */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--bordure-legere);
+  border-radius: 8px;
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(183, 214, 74, 0.25), transparent);
+  animation: balayage-skeleton 1.4s infinite;
+}
+@keyframes balayage-skeleton { 100% { transform: translateX(100%); } }
+.skeleton-ligne { height: 14px; margin-bottom: 8px; width: 100%; }
+.skeleton-titre { height: 22px; width: 40%; margin-bottom: 14px; }
+.skeleton-carte { height: 90px; border-radius: var(--rayon); }
+
+/* ===== Mobile : sidebar devient un offcanvas ===== */
+@media (max-width: 991.98px) {
+  .sidebar-dgb { display: none; }
+  .contenu-principal { padding: 1rem; }
+}
+
+/* ===== Mobile-first : cibles tactiles et lisibilité ===== */
+@media (max-width: 767.98px) {
+  /* Boutons suffisamment grands pour le doigt (44px recommandé WCAG) */
+  .btn { min-height: 44px; padding-top: .55rem; padding-bottom: .55rem; }
+  .btn-sm { min-height: 38px; }
+
+  /* Éviter le débordement horizontal : les groupes de boutons empilent proprement */
+  .topbar-dgb .d-flex.gap-2 { row-gap: .5rem; }
+
+  /* Textes toujours lisibles, jamais réduits sous 0.85rem */
+  .small, small { font-size: 0.85rem; }
+
+  /* Cartes KPI : une par ligne sur très petit écran pour éviter le texte compressé */
+  .kpi-valeur { font-size: 1.6rem; }
+
+  /* Tableaux : on garde le scroll horizontal contrôlé (table-responsive) plutôt
+     que de laisser déborder toute la page hors de l'écran. */
+  .table-dgb { font-size: 0.85rem; }
+  .table-responsive { -webkit-overflow-scrolling: touch; }
+
+  /* Empêche tout élément (image, canvas) de dépasser la largeur de l'écran */
+  img, canvas, .carte-dgb { max-width: 100%; }
+
+  /* Espacement suffisant entre boutons rapprochés (éviter les mauvais clics) */
+  .btn + .btn { margin-top: 6px; }
+  td .btn + .btn, .d-flex .btn + .btn { margin-top: 0; margin-left: 4px; }
+}
+
+html { overflow-x: hidden; }
+body { overflow-x: hidden; }
+
+.footer-dgb {
+  background: #1f2917;
+  color: #B7C0A8;
+  padding: 2.5rem 0 1.5rem;
+  margin-top: 4rem;
+}
+.footer-dgb a { color: #D8E3C6; text-decoration: none; }
+.footer-dgb a:hover { color: var(--vert-citron); }
+
+.chargement-spinner { color: var(--vert-citron-fonce); }

@@ -1,0 +1,96 @@
+{% extends "base_public.html" %}
+{% load i18n %}
+{% block titre %}{% trans "Accueil" %}{% endblock %}
+{% block contenu %}
+
+<section class="hero-dgb">
+  <div class="container position-relative">
+    <div class="row align-items-center">
+      <div class="col-lg-8">
+        <span class="badge bg-vert-citron-clair texte-accent mb-3 px-3 py-2">{% trans "Direction Générale du Budget — MINFI" %}</span>
+        <h1>{% trans "Plateforme intelligente de prévision du taux d'engagement des AE" %}</h1>
+        <p class="lead mt-3">{% trans "Analyse, prévision et aide à la décision budgétaire, grâce à l'intelligence artificielle." %}</p>
+        <a href="{% url 'accounts:connexion' %}" class="btn btn-vert-citron btn-lg mt-3 px-4">
+          <i class="bi bi-box-arrow-in-right"></i> {% trans "Se connecter" %}
+        </a>
+        <a href="#comment-ca-marche" class="btn btn-outline-light btn-lg mt-3 px-4">
+          <i class="bi bi-info-circle"></i> {% trans "En savoir plus" %}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container py-5">
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="carte-dgb p-4 h-100">
+        <i class="bi bi-exclamation-diamond fs-2 texte-dore"></i>
+        <h5 class="mt-3">{% trans "Le problème" %}</h5>
+        <p class="text-muted mb-0">{% trans "Anticiper le taux d'engagement des AE reste difficile avec des méthodes manuelles, retardant les décisions budgétaires." %}</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="carte-dgb p-4 h-100">
+        <i class="bi bi-lightbulb fs-2 texte-accent"></i>
+        <h5 class="mt-3">{% trans "La solution" %}</h5>
+        <p class="text-muted mb-0">{% trans "Quatre modèles d'intelligence artificielle entraînés sur l'historique réel, comparés objectivement pour retenir le plus fiable." %}</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="carte-dgb p-4 h-100">
+        <i class="bi bi-graph-up-arrow fs-2 texte-dore"></i>
+        <h5 class="mt-3">{% trans "L'aide à la décision" %}</h5>
+        <p class="text-muted mb-0">{% trans "Des tableaux de bord clairs, adaptés à chaque rôle, pour transformer la prévision en décision." %}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-vert-citron-clair py-5" id="comment-ca-marche">
+  <div class="container">
+    <h3 class="text-center mb-5">{% trans "Comment fonctionne la plateforme ?" %}</h3>
+    <div class="row g-4 text-center">
+      <div class="col-md-3">
+        <div class="carte-dgb p-4 h-100">
+          <div class="kpi-valeur texte-accent">1</div>
+          <h6 class="mt-2">{% trans "Importer les données" %}</h6>
+          <p class="small text-muted mb-0">{% trans "Chargement et validation automatique du fichier CSV." %}</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="carte-dgb p-4 h-100">
+          <div class="kpi-valeur texte-accent">2</div>
+          <h6 class="mt-2">{% trans "Entraîner les modèles" %}</h6>
+          <p class="small text-muted mb-0">{% trans "XGBoost, LightGBM, LSTM et ARIMA sont entraînés et évalués." %}</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="carte-dgb p-4 h-100">
+          <div class="kpi-valeur texte-accent">3</div>
+          <h6 class="mt-2">{% trans "Comparer les résultats" %}</h6>
+          <p class="small text-muted mb-0">{% trans "MAE, RMSE, R² et MAPE affichés pour un choix éclairé." %}</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="carte-dgb p-4 h-100">
+          <div class="kpi-valeur texte-accent">4</div>
+          <h6 class="mt-2">{% trans "Décider" %}</h6>
+          <p class="small text-muted mb-0">{% trans "Le décideur consulte des prévisions claires et actionnables." %}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container py-5">
+  <h3 class="text-center mb-4">{% trans "L'intelligence artificielle utilisée" %}</h3>
+  <div class="row g-3 justify-content-center">
+    <div class="col-6 col-md-3"><div class="carte-dgb p-3 text-center"><i class="bi bi-cpu fs-3 texte-accent"></i><div class="fw-semibold mt-2">XGBoost</div></div></div>
+    <div class="col-6 col-md-3"><div class="carte-dgb p-3 text-center"><i class="bi bi-cpu fs-3 texte-accent"></i><div class="fw-semibold mt-2">LightGBM</div></div></div>
+    <div class="col-6 col-md-3"><div class="carte-dgb p-3 text-center"><i class="bi bi-cpu fs-3 texte-dore"></i><div class="fw-semibold mt-2">LSTM</div></div></div>
+    <div class="col-6 col-md-3"><div class="carte-dgb p-3 text-center"><i class="bi bi-cpu fs-3 texte-dore"></i><div class="fw-semibold mt-2">ARIMA</div></div></div>
+  </div>
+</section>
+
+{% endblock %}

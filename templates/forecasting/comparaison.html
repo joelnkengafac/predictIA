@@ -1,0 +1,74 @@
+{% extends "base_app.html" %}
+{% load i18n %}
+{% block titre %}{% trans "Comparaison des modèles" %}{% endblock %}
+{% block fil_ariane %}{% trans "Modèles" %} / {% trans "Comparaison" %}{% endblock %}
+{% block contenu %}
+
+<h4 class="mb-4"><i class="bi bi-bar-chart texte-accent"></i> {% trans "Analyse des performances des modèles" %}</h4>
+
+{% if session %}
+<div class="carte-dgb p-4 mb-4">
+  <p class="mb-1"><strong>{% trans "Période d'entraînement" %} :</strong> {{ session.periode_train }}</p>
+  <p class="mb-3"><strong>{% trans "Période de test" %} :</strong> {{ session.periode_test }}</p>
+  <div class="table-responsive">
+    <table class="table table-dgb align-middle">
+      <thead><tr><th>{% trans "Modèle" %}</th><th>MAE</th><th>RMSE</th><th>R²</th><th>MAPE</th><th>{% trans "Statut" %}</th></tr></thead>
+      <tbody>
+        {% for e in evaluations %}
+        <tr class="{% if e.est_le_meilleur %}table-success{% endif %}">
+          <td>{{ e.nom_modele }} {% if e.est_le_meilleur %}<span class="meilleur-modele-badge">{% trans "Meilleur" %}</span>{% endif %}</td>
+          <td>{{ e.mae|floatformat:4|default:"—" }}</td>
+          <td>{{ e.rmse|floatformat:4|default:"—" }}</td>
+          <td>{{ e.r2|floatformat:4|default:"—" }}</td>
+          <td>{{ e.mape|floatformat:2|default:"—" }}{% if e.mape %}%{% endif %}</td>
+          <td>{{ e.statut }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% if meilleur %}
+<div class="carte-dgb p-4 mb-4 bg-vert-citron-clair">
+  <h5 class="texte-accent"><i class="bi bi-trophy"></i> {% trans "Meilleur modèle" %} : {{ meilleur.nom_modele }}</h5>
+  <p class="mb-0">{{ session.explication_meilleur_modele }}</p>
+</div>
+{% endif %}
+
+<div class="row g-3">
+  <div class="col-md-6"><div class="carte-dgb p-3"><h6 class="text-center">{% trans "Comparaison MAE" %}</h6><canvas id="graphMAE"></canvas></div></div>
+  <div class="col-md-6"><div class="carte-dgb p-3"><h6 class="text-center">{% trans "Comparaison RMSE" %}</h6><canvas id="graphRMSE"></canvas></div></div>
+  <div class="col-md-6"><div class="carte-dgb p-3"><h6 class="text-center">{% trans "Comparaison R²" %}</h6><canvas id="graphR2"></canvas></div></div>
+  <div class="col-md-6"><div class="carte-dgb p-3"><h6 class="text-center">{% trans "Comparaison MAPE" %}</h6><canvas id="graphMAPE"></canvas></div></div>
+</div>
+{% else %}
+<div class="carte-dgb p-5 text-center">
+  <i class="bi bi-cpu display-4 texte-accent"></i>
+  <h5 class="mt-3">{% trans "Aucun entraînement disponible" %}</h5>
+  <a href="{% url 'forecasting:entrainement' %}" class="btn btn-vert-citron mt-2">{% trans "Lancer l'entraînement" %}</a>
+</div>
+{% endif %}
+
+{% endblock %}
+{% block extra_js %}
+{% if session %}
+<script>
+const noms = [{% for e in evaluations %}"{{ e.nom_modele }}",{% endfor %}];
+const couleurs = ['#B7D64A', '#97B238', '#C9A430', '#6c8f3f'];
+
+function creerGraphBarre(id, valeurs, label) {
+  new Chart(document.getElementById(id), {
+    type: 'bar',
+    data: { labels: noms, datasets: [{ label: label, data: valeurs, backgroundColor: couleurs }] },
+    options: { plugins: { legend: { display: false } }, responsive: true }
+  });
+}
+
+creerGraphBarre('graphMAE', [{% for e in evaluations %}{{ e.mae|default:0 }},{% endfor %}], 'MAE');
+creerGraphBarre('graphRMSE', [{% for e in evaluations %}{{ e.rmse|default:0 }},{% endfor %}], 'RMSE');
+creerGraphBarre('graphR2', [{% for e in evaluations %}{{ e.r2|default:0 }},{% endfor %}], 'R²');
+creerGraphBarre('graphMAPE', [{% for e in evaluations %}{{ e.mape|default:0 }},{% endfor %}], 'MAPE (%)');
+</script>
+{% endif %}
+{% endblock %}

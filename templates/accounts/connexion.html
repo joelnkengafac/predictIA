@@ -1,0 +1,45 @@
+{% extends "base_public.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% block titre %}{% trans "Connexion" %}{% endblock %}
+{% block contenu %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+      <div class="carte-dgb p-4 p-md-5">
+        <div class="d-flex justify-content-center gap-3 mb-3">
+          <img src="{% static 'images/logo_minfi_placeholder.svg' %}" alt="MINFI" height="56">
+          <img src="{% static 'images/logo_dgb_placeholder.svg' %}" alt="DGB" height="56">
+        </div>
+        <h3 class="text-center mb-1">{% trans "Connexion" %}</h3>
+        <p class="text-center text-muted mb-4">{% trans "Accédez à votre espace DGB / MINFI" %}</p>
+        <form method="post" novalidate>
+          {% csrf_token %}
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+          {% endif %}
+          <div class="mb-3">
+            <label class="form-label">{{ form.username.label }}</label>
+            {{ form.username }}
+            {% if form.username.errors %}<div class="text-danger small">{{ form.username.errors }}</div>{% endif %}
+          </div>
+          <div class="mb-3">
+            <label class="form-label">{{ form.password.label }}</label>
+            {{ form.password }}
+            {% if form.password.errors %}<div class="text-danger small">{{ form.password.errors }}</div>{% endif %}
+          </div>
+          <button type="submit" class="btn btn-vert-citron w-100">{% trans "Se connecter" %}</button>
+        </form>
+        <div class="text-center my-3 text-muted">{% trans "ou" %}</div>
+        <a href="{% url 'google_login' %}" class="btn btn-outline-secondary w-100">
+          <i class="bi bi-google"></i> {% trans "Continuer avec Google" %}
+        </a>
+        <div class="d-flex justify-content-between mt-4 small">
+          <a href="{% url 'accounts:mot_de_passe_oublie' %}">{% trans "Mot de passe oublié ?" %}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

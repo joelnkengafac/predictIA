@@ -1,0 +1,141 @@
+{% extends "base_app.html" %}
+{% load i18n %}
+{% block titre %}{% trans "Diagnostic statistique de la série" %}{% endblock %}
+{% block fil_ariane %}{% trans "Modèles" %} / {% trans "Diagnostic" %}{% endblock %}
+{% block contenu %}
+
+<h4 class="mb-4"><i class="bi bi-graph-up texte-accent"></i> {% trans "Diagnostic statistique de la série (ADF, ACF, PACF)" %}</h4>
+
+<div class="carte-dgb p-4 mb-4">
+  <p class="text-muted mb-3">
+    {% trans "Ce diagnostic justifie objectivement le choix des paramètres ARIMA : le test ADF détermine si la série nécessite une différenciation (paramètre d), tandis que l'ACF et la PACF orientent le choix des ordres q et p." %}
+  </p>
+  <form method="get" class="row g-2 align-items-end">
+    <div class="col-md-4">
+      <label class="form-label small">{% trans "Chapitre" %}</label>
+      <select name="chapitre" class="form-select" onchange="this.form.submit()">
+        <option value="">{% trans "Choisir un chapitre" %}</option>
+        {% for c in chapitres_disponibles %}
+        <option value="{{ c }}" {% if chapitre_selectionne == c %}selected{% endif %}>{% trans "Chapitre" %} {{ c }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </form>
+</div>
+
+{% if not dataset %}
+<div class="carte-dgb p-5 text-center">
+  <i class="bi bi-database-x display-4 texte-accent"></i>
+  <h5 class="mt-3">{% trans "Aucun dataset actif" %}</h5>
+</div>
+{% elif diagnostic %}
+
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <div class="kpi-carte">
+      <div class="kpi-label">{% trans "Couverture mensuelle" %}</div>
+      <div class="kpi-valeur">{{ diagnostic.taux_couverture|floatformat:1 }}</div>
+      <div class="text-muted small">{{ diagnostic.n_observations_reelles }} / {{ diagnostic.n_mois_calendaires }} {% trans "mois" %}</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="kpi-carte dore">
+      <div class="kpi-label">{% trans "Test ADF" %}</div>
+      {% if diagnostic.adf %}
+      <div class="kpi-valeur fs-5">{% if diagnostic.adf.stationnaire %}{% trans "Stationnaire" %}{% else %}{% trans "Non stationnaire" %}{% endif %}</div>
+      <div class="text-muted small">p-value = {{ diagnostic.adf.p_value|floatformat:4 }}</div>
+      {% else %}
+      <div class="kpi-valeur fs-6 text-muted">{% trans "Non calculable" %}</div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="kpi-carte">
+      <div class="kpi-label">{% trans "Seuil de significativité ACF/PACF" %}</div>
+      <div class="kpi-valeur">±{{ diagnostic.seuil_significativite }}</div>
+    </div>
+  </div>
+</div>
+
+{% if diagnostic.avertissement %}
+<div class="alert alert-warning mb-4">{{ diagnostic.avertissement }}</div>
+{% endif %}
+
+{% if diagnostic.adf %}
+<div class="carte-dgb p-4 mb-4">
+  <h6>{% trans "Conclusion du test ADF" %}</h6>
+  <p class="mb-0">{{ diagnostic.adf.conclusion }}</p>
+  <p class="text-muted small mb-0 mt-2">
+    {% trans "Statistique de test" %} : {{ diagnostic.adf.statistique|floatformat:4 }}
+    | {% trans "Valeurs critiques" %} :
+    1% = {{ diagnostic.adf.valeurs_critiques.seuil_1pct|floatformat:3 }},
+    5% = {{ diagnostic.adf.valeurs_critiques.seuil_5pct|floatformat:3 }},
+    10% = {{ diagnostic.adf.valeurs_critiques.seuil_10pct|floatformat:3 }}
+  </p>
+</div>
+{% endif %}
+
+{% if diagnostic.acf_valeurs %}
+<div class="row g-3">
+  <div class="col-md-6">
+    <div class="carte-dgb p-3">
+      <h6 class="text-center">ACF — {% trans "Fonction d'autocorrélation" %}</h6>
+      <canvas id="graphACF"></canvas>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="carte-dgb p-3">
+      <h6 class="text-center">PACF — {% trans "Autocorrélation partielle" %}</h6>
+      <canvas id="graphPACF"></canvas>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% endif %}
+{% endblock %}
+{% block extra_js %}
+{% if diagnostic.acf_valeurs %}
+<script>
+const seuil = {{ diagnostic.seuil_significativite }};
+const labelsLags = Array.from({length: {{ diagnostic.acf_valeurs|length }}}, (_, i) => i + 1);
+
+function creerGraphAutocorrelation(id, valeurs) {
+  new Chart(document.getElementById(id), {
+    type: 'bar',
+    data: {
+      labels: labelsLags,
+      datasets: [
+        { label: 'Valeur', data: valeurs, backgroundColor: '#B7D64A' },
+      ]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: { y: { min: -1, max: 1 } }
+    },
+    plugins: [{
+      afterDraw: chart => {
+        const ctx = chart.ctx;
+        const yAxis = chart.scales.y;
+        const xAxis = chart.scales.x;
+        ctx.save();
+        ctx.strokeStyle = '#C9A430';
+        ctx.setLineDash([4,4]);
+        [seuil, -seuil].forEach(v => {
+          const y = yAxis.getPixelForValue(v);
+          ctx.beginPath();
+          ctx.moveTo(xAxis.left, y);
+          ctx.lineTo(xAxis.right, y);
+          ctx.stroke();
+        });
+        ctx.restore();
+      }
+    }]
+  });
+}
+
+creerGraphAutocorrelation('graphACF', {{ diagnostic.acf_valeurs|safe }});
+creerGraphAutocorrelation('graphPACF', {{ diagnostic.pacf_valeurs|safe }});
+</script>
+{% endif %}
+{% endblock %}

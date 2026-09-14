@@ -1,0 +1,59 @@
+{% extends "base_app.html" %}
+{% load i18n %}
+{% block titre %}{% if mode == "creation" %}{% trans "Nouvel utilisateur" %}{% else %}{% trans "Modifier utilisateur" %}{% endif %}{% endblock %}
+{% block fil_ariane %}{% trans "Administration" %} / {% trans "Utilisateurs" %}{% endblock %}
+{% block contenu %}
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+    <div class="carte-dgb p-4 p-md-5">
+      <h4 class="mb-4">{% if mode == "creation" %}<i class="bi bi-person-plus texte-accent"></i> {% trans "Créer un utilisateur" %}{% else %}<i class="bi bi-pencil texte-accent"></i> {% trans "Modifier" %} {{ cible.username }}{% endif %}</h4>
+      <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">{{ form.first_name.label }}</label>
+            {{ form.first_name }}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">{{ form.last_name.label }}</label>
+            {{ form.last_name }}
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">{{ form.username.label }}</label>
+          {{ form.username }}
+          {% if form.username.errors %}<div class="text-danger small">{{ form.username.errors }}</div>{% endif %}
+        </div>
+        <div class="mb-3">
+          <label class="form-label">{{ form.email.label }}</label>
+          {{ form.email }}
+          {% if form.email.errors %}<div class="text-danger small">{{ form.email.errors }}</div>{% endif %}
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">{{ form.role.label }}</label>
+            {{ form.role }}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">{{ form.service.label }}</label>
+            {{ form.service }}
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">{{ form.telephone.label }}</label>
+          {{ form.telephone }}
+        </div>
+        <div class="form-check mb-3">
+          {{ form.est_actif_metier }}
+          <label class="form-check-label">{{ form.est_actif_metier.label }}</label>
+        </div>
+        {% if mode == "creation" %}
+          <p class="small text-muted">{% trans "Un mot de passe temporaire sera généré automatiquement et affiché après validation." %}</p>
+        {% endif %}
+        <button type="submit" class="btn btn-vert-citron">{% trans "Enregistrer" %}</button>
+        <a href="{% url 'accounts:liste_utilisateurs' %}" class="btn btn-outline-secondary">{% trans "Annuler" %}</a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
