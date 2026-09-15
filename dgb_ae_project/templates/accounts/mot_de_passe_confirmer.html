@@ -1,0 +1,32 @@
+{% extends "base_public.html" %}
+{% block titre %}Nouveau mot de passe{% endblock %}
+{% block contenu %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+      <div class="carte-dgb p-4 p-md-5">
+        <h3 class="text-center mb-4">Choisir un nouveau mot de passe</h3>
+        {% if validlink %}
+        <form method="post" novalidate>
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label">{{ form.new_password1.label }}</label>
+            {{ form.new_password1 }}
+            {% if form.new_password1.errors %}<div class="text-danger small">{{ form.new_password1.errors }}</div>{% endif %}
+          </div>
+          <div class="mb-3">
+            <label class="form-label">{{ form.new_password2.label }}</label>
+            {{ form.new_password2 }}
+            {% if form.new_password2.errors %}<div class="text-danger small">{{ form.new_password2.errors }}</div>{% endif %}
+          </div>
+          <button type="submit" class="btn btn-vert-citron w-100">Réinitialiser</button>
+        </form>
+        {% else %}
+          <p class="text-danger text-center">Ce lien de réinitialisation n'est plus valide.</p>
+          <a href="{% url 'accounts:mot_de_passe_oublie' %}" class="btn btn-vert-citron w-100">Redemander un lien</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

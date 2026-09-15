@@ -1,0 +1,896 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-29 18:58+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % "
+"1000000 == 0 ? 1 : 2;\n"
+
+#: config/settings.py:165
+msgid "Français"
+msgstr ""
+
+#: config/settings.py:166
+msgid "English"
+msgstr ""
+
+#: core/context_processors.py:20 core/context_processors.py:33
+#: core/context_processors.py:44 templates/base_app.html:55
+#: templates/dashboard/admin.html:4 templates/dashboard/analyste.html:4
+#: templates/dashboard/decideur.html:4
+msgid "Tableau de bord"
+msgstr ""
+
+#: core/context_processors.py:21
+#: templates/accounts/formulaire_utilisateur.html:4
+#: templates/accounts/liste_utilisateurs.html:3
+#: templates/accounts/liste_utilisateurs.html:4
+#: templates/dashboard/admin.html:8
+msgid "Utilisateurs"
+msgstr ""
+
+#: core/context_processors.py:22
+msgid "Statistiques"
+msgstr ""
+
+#: core/context_processors.py:23
+msgid "Paramètres"
+msgstr ""
+
+#: core/context_processors.py:24 core/context_processors.py:34
+#: templates/datasets/importer.html:4 templates/datasets/liste_datasets.html:4
+#: templates/datasets/liste_observations.html:3
+#: templates/datasets/liste_observations.html:4
+msgid "Données"
+msgstr ""
+
+#: core/context_processors.py:25 templates/forecasting/comparaison.html:4
+#: templates/forecasting/entrainement.html:4
+msgid "Modèles"
+msgstr ""
+
+#: core/context_processors.py:26 core/context_processors.py:37
+#: core/context_processors.py:45 templates/predictions/historique.html:4
+#: templates/predictions/nouvelle.html:4
+msgid "Prévisions"
+msgstr ""
+
+#: core/context_processors.py:27 core/context_processors.py:39
+#: templates/predictions/historique.html:4
+msgid "Historique"
+msgstr ""
+
+#: core/context_processors.py:28 templates/core/journal_activite.html:3
+#: templates/core/journal_activite.html:4
+#: templates/core/journal_activite.html:7
+msgid "Journal d'activité"
+msgstr ""
+
+#: core/context_processors.py:29 core/context_processors.py:40
+#: core/context_processors.py:48 templates/accounts/profil.html:4
+msgid "Profil"
+msgstr ""
+
+#: core/context_processors.py:32 core/context_processors.py:43
+#: templates/base_public.html:8 templates/core/accueil.html:3
+msgid "Accueil"
+msgstr ""
+
+#: core/context_processors.py:35 templates/datasets/importer.html:4
+msgid "Importer"
+msgstr ""
+
+#: core/context_processors.py:36
+msgid "Analyse"
+msgstr ""
+
+#: core/context_processors.py:38 templates/forecasting/comparaison.html:3
+msgid "Comparaison des modèles"
+msgstr ""
+
+#: core/context_processors.py:46
+msgid "Indicateurs"
+msgstr ""
+
+#: core/context_processors.py:47
+msgid "Rapports"
+msgstr ""
+
+#: templates/accounts/confirmer_action.html:13
+msgid "Confirmer"
+msgstr ""
+
+#: templates/accounts/confirmer_action.html:14
+#: templates/accounts/formulaire_utilisateur.html:54
+msgid "Annuler"
+msgstr ""
+
+#: templates/accounts/connexion.html:5 templates/accounts/connexion.html:15
+#: templates/base_public.html:72
+msgid "Connexion"
+msgstr ""
+
+#: templates/accounts/connexion.html:16
+msgid "Accédez à votre espace DGB / MINFI"
+msgstr ""
+
+#: templates/accounts/connexion.html:32 templates/base_public.html:45
+#: templates/core/accueil.html:14
+msgid "Se connecter"
+msgstr ""
+
+#: templates/accounts/connexion.html:34
+msgid "ou"
+msgstr ""
+
+#: templates/accounts/connexion.html:36
+msgid "Continuer avec Google"
+msgstr ""
+
+#: templates/accounts/connexion.html:39
+msgid "Mot de passe oublié ?"
+msgstr ""
+
+#: templates/accounts/formulaire_utilisateur.html:3
+#: templates/accounts/liste_utilisateurs.html:8
+msgid "Nouvel utilisateur"
+msgstr ""
+
+#: templates/accounts/formulaire_utilisateur.html:3
+msgid "Modifier utilisateur"
+msgstr ""
+
+#: templates/accounts/formulaire_utilisateur.html:4
+#: templates/accounts/liste_utilisateurs.html:4
+#: templates/core/journal_activite.html:4
+msgid "Administration"
+msgstr ""
+
+#: templates/accounts/formulaire_utilisateur.html:9
+msgid "Créer un utilisateur"
+msgstr ""
+
+#: templates/accounts/formulaire_utilisateur.html:9
+msgid "Modifier"
+msgstr ""
+
+#: templates/accounts/formulaire_utilisateur.html:51
+msgid ""
+"Un mot de passe temporaire sera généré automatiquement et affiché après "
+"validation."
+msgstr ""
+
+#: templates/accounts/formulaire_utilisateur.html:53
+msgid "Enregistrer"
+msgstr ""
+
+#: templates/accounts/inscription.html:3
+msgid "Inscription"
+msgstr ""
+
+#: templates/accounts/inscription.html:9
+msgid "Inscrire un nouvel utilisateur"
+msgstr ""
+
+#: templates/accounts/inscription.html:10
+msgid ""
+"Le rôle par défaut est Décideur — modifiable ensuite depuis la gestion des "
+"utilisateurs."
+msgstr ""
+
+#: templates/accounts/inscription.html:49
+msgid "Créer le compte"
+msgstr ""
+
+#: templates/accounts/inscription.html:51
+msgid "Retour à la liste des utilisateurs"
+msgstr ""
+
+#: templates/accounts/liste_utilisateurs.html:7
+msgid "Gestion des utilisateurs"
+msgstr ""
+
+#: templates/accounts/liste_utilisateurs.html:12
+msgid "Rechercher par nom d'utilisateur ou email..."
+msgstr ""
+
+#: templates/accounts/liste_utilisateurs.html:20
+#: templates/core/journal_activite.html:11
+#: templates/predictions/historique.html:36
+msgid "Utilisateur"
+msgstr ""
+
+#: templates/accounts/liste_utilisateurs.html:20
+msgid "Email"
+msgstr ""
+
+#: templates/accounts/liste_utilisateurs.html:20
+msgid "Rôle"
+msgstr ""
+
+#: templates/accounts/liste_utilisateurs.html:20
+#: templates/datasets/liste_datasets.html:10
+#: templates/forecasting/comparaison.html:15
+#: templates/forecasting/entrainement.html:49
+msgid "Statut"
+msgstr ""
+
+#: templates/accounts/liste_utilisateurs.html:20
+msgid "Créé le"
+msgstr ""
+
+#: templates/accounts/liste_utilisateurs.html:27
+#: templates/datasets/liste_datasets.html:20
+msgid "Actif"
+msgstr ""
+
+#: templates/accounts/liste_utilisateurs.html:27
+msgid "Désactivé"
+msgstr ""
+
+#: templates/accounts/liste_utilisateurs.html:36
+msgid "Aucun utilisateur trouvé."
+msgstr ""
+
+#: templates/accounts/profil.html:3 templates/accounts/profil.html:9
+msgid "Mon profil"
+msgstr ""
+
+#: templates/accounts/profil.html:37
+msgid "Enregistrer les modifications"
+msgstr ""
+
+#: templates/base_app.html:8
+msgid "Plateforme AE"
+msgstr ""
+
+#: templates/base_app.html:44
+msgid "Déconnexion"
+msgstr ""
+
+#: templates/base_app.html:58 templates/base_public.html:31
+msgid "Basculer le mode clair/sombre"
+msgstr ""
+
+#: templates/base_app.html:64 templates/base_public.html:37
+msgid "Changer de langue"
+msgstr ""
+
+#: templates/base_public.html:43
+msgid "Mon tableau de bord"
+msgstr ""
+
+#: templates/base_public.html:68
+msgid "Direction Générale du Budget"
+msgstr ""
+
+#: templates/base_public.html:69
+msgid "Ministère des Finances — République du Cameroun"
+msgstr ""
+
+#: templates/base_public.html:76
+msgid "Plateforme intelligente de prévision du taux d'engagement des AE."
+msgstr ""
+
+#: templates/core/accueil.html:10
+msgid "Direction Générale du Budget — MINFI"
+msgstr ""
+
+#: templates/core/accueil.html:11
+msgid "Plateforme intelligente de prévision du taux d'engagement des AE"
+msgstr ""
+
+#: templates/core/accueil.html:12
+msgid ""
+"Analyse, prévision et aide à la décision budgétaire, grâce à l'intelligence "
+"artificielle."
+msgstr ""
+
+#: templates/core/accueil.html:17
+msgid "En savoir plus"
+msgstr ""
+
+#: templates/core/accueil.html:29
+msgid "Le problème"
+msgstr ""
+
+#: templates/core/accueil.html:30
+msgid ""
+"Anticiper le taux d'engagement des AE reste difficile avec des méthodes "
+"manuelles, retardant les décisions budgétaires."
+msgstr ""
+
+#: templates/core/accueil.html:36
+msgid "La solution"
+msgstr ""
+
+#: templates/core/accueil.html:37
+msgid ""
+"Quatre modèles d'intelligence artificielle entraînés sur l'historique réel, "
+"comparés objectivement pour retenir le plus fiable."
+msgstr ""
+
+#: templates/core/accueil.html:43
+msgid "L'aide à la décision"
+msgstr ""
+
+#: templates/core/accueil.html:44
+msgid ""
+"Des tableaux de bord clairs, adaptés à chaque rôle, pour transformer la "
+"prévision en décision."
+msgstr ""
+
+#: templates/core/accueil.html:52
+msgid "Comment fonctionne la plateforme ?"
+msgstr ""
+
+#: templates/core/accueil.html:57
+msgid "Importer les données"
+msgstr ""
+
+#: templates/core/accueil.html:58
+msgid "Chargement et validation automatique du fichier CSV."
+msgstr ""
+
+#: templates/core/accueil.html:64 templates/dashboard/analyste.html:54
+#: templates/forecasting/entrainement.html:3
+#: templates/forecasting/entrainement.html:9
+msgid "Entraîner les modèles"
+msgstr ""
+
+#: templates/core/accueil.html:65
+msgid "XGBoost, LightGBM, LSTM et ARIMA sont entraînés et évalués."
+msgstr ""
+
+#: templates/core/accueil.html:71
+msgid "Comparer les résultats"
+msgstr ""
+
+#: templates/core/accueil.html:72
+msgid "MAE, RMSE, R² et MAPE affichés pour un choix éclairé."
+msgstr ""
+
+#: templates/core/accueil.html:78
+msgid "Décider"
+msgstr ""
+
+#: templates/core/accueil.html:79
+msgid "Le décideur consulte des prévisions claires et actionnables."
+msgstr ""
+
+#: templates/core/accueil.html:87
+msgid "L'intelligence artificielle utilisée"
+msgstr ""
+
+#: templates/core/journal_activite.html:6
+msgid "Système"
+msgstr ""
+
+#: templates/core/journal_activite.html:11
+#: templates/datasets/liste_datasets.html:10
+#: templates/predictions/historique.html:36
+#: templates/predictions/nouvelle.html:58
+msgid "Date"
+msgstr ""
+
+#: templates/core/journal_activite.html:11
+msgid "Action"
+msgstr ""
+
+#: templates/core/journal_activite.html:11
+msgid "Adresse IP"
+msgstr ""
+
+#: templates/core/journal_activite.html:21
+msgid "Aucune activité enregistrée."
+msgstr ""
+
+#: templates/dashboard/admin.html:3
+msgid "Tableau de bord Administrateur"
+msgstr ""
+
+#: templates/dashboard/admin.html:4
+msgid "Administrateur"
+msgstr ""
+
+#: templates/dashboard/admin.html:9
+msgid "Analystes"
+msgstr ""
+
+#: templates/dashboard/admin.html:10
+msgid "Décideurs"
+msgstr ""
+
+#: templates/dashboard/admin.html:11
+msgid "Administrateurs"
+msgstr ""
+
+#: templates/dashboard/admin.html:15
+msgid "Lignes du dataset"
+msgstr ""
+
+#: templates/dashboard/admin.html:16 templates/datasets/liste_datasets.html:10
+#: templates/datasets/liste_observations.html:8
+msgid "Chapitres"
+msgstr ""
+
+#: templates/dashboard/admin.html:17
+msgid "Modèle sélectionné"
+msgstr ""
+
+#: templates/dashboard/admin.html:18
+msgid "Dernier import"
+msgstr ""
+
+#: templates/dashboard/admin.html:24
+msgid "Activité récente"
+msgstr ""
+
+#: templates/dashboard/admin.html:32
+msgid "Aucune activité récente."
+msgstr ""
+
+#: templates/dashboard/admin.html:35
+msgid "Voir tout le journal"
+msgstr ""
+
+#: templates/dashboard/admin.html:40
+msgid "Dernière prévision"
+msgstr ""
+
+#: templates/dashboard/admin.html:42 templates/dashboard/analyste.html:62
+#: templates/dashboard/decideur.html:39
+#: templates/datasets/liste_observations.html:17
+#: templates/datasets/liste_observations.html:21
+#: templates/datasets/liste_observations.html:35
+#: templates/datasets/liste_observations.html:40
+#: templates/predictions/historique.html:12
+#: templates/predictions/historique.html:36
+#: templates/predictions/historique.html:41
+#: templates/predictions/nouvelle.html:46
+#: templates/predictions/nouvelle.html:58
+#: templates/predictions/nouvelle.html:61
+msgid "Chapitre"
+msgstr ""
+
+#: templates/dashboard/admin.html:43 templates/dashboard/analyste.html:37
+#: templates/forecasting/comparaison.html:15
+#: templates/predictions/historique.html:16
+#: templates/predictions/historique.html:36
+msgid "Modèle"
+msgstr ""
+
+#: templates/dashboard/admin.html:44 templates/predictions/historique.html:36
+msgid "Horizon"
+msgstr ""
+
+#: templates/dashboard/admin.html:44 templates/dashboard/analyste.html:62
+#: templates/predictions/historique.html:43
+msgid "mois"
+msgstr ""
+
+#: templates/dashboard/admin.html:45
+msgid "Générée le"
+msgstr ""
+
+#: templates/dashboard/admin.html:47
+msgid "Aucune prévision générée pour le moment."
+msgstr ""
+
+#: templates/dashboard/admin.html:49
+msgid "Gérer les utilisateurs"
+msgstr ""
+
+#: templates/dashboard/analyste.html:3
+msgid "Tableau de bord Analyste"
+msgstr ""
+
+#: templates/dashboard/analyste.html:4
+msgid "Analyste"
+msgstr ""
+
+#: templates/dashboard/analyste.html:6
+msgid "Aucun"
+msgstr ""
+
+#: templates/dashboard/analyste.html:11
+#: templates/forecasting/entrainement.html:11
+msgid "Dataset actif"
+msgstr ""
+
+#: templates/dashboard/analyste.html:18
+msgid "Observations"
+msgstr ""
+
+#: templates/dashboard/analyste.html:24
+#: templates/forecasting/comparaison.html:34
+msgid "Meilleur modèle"
+msgstr ""
+
+#: templates/dashboard/analyste.html:33
+msgid "Performance des modèles"
+msgstr ""
+
+#: templates/dashboard/analyste.html:41
+#: templates/forecasting/comparaison.html:19
+#: templates/forecasting/entrainement.html:46
+msgid "Meilleur"
+msgstr ""
+
+#: templates/dashboard/analyste.html:52
+msgid "Aucun modèle entraîné pour le moment."
+msgstr ""
+
+#: templates/dashboard/analyste.html:59
+msgid "Mes prévisions récentes"
+msgstr ""
+
+#: templates/dashboard/analyste.html:64
+msgid "Aucune prévision récente."
+msgstr ""
+
+#: templates/dashboard/analyste.html:67 templates/dashboard/decideur.html:51
+#: templates/predictions/nouvelle.html:3
+msgid "Nouvelle prévision"
+msgstr ""
+
+#: templates/dashboard/decideur.html:3
+msgid "Tableau de bord Décideur"
+msgstr ""
+
+#: templates/dashboard/decideur.html:4
+msgid "Décideur"
+msgstr ""
+
+#: templates/dashboard/decideur.html:11
+msgid "Taux actuel"
+msgstr ""
+
+#: templates/dashboard/decideur.html:17
+msgid "Taux prévisionnel"
+msgstr ""
+
+#: templates/dashboard/decideur.html:23
+msgid "Tendance"
+msgstr ""
+
+#: templates/dashboard/decideur.html:32
+msgid "Modèle recommandé"
+msgstr ""
+
+#: templates/dashboard/decideur.html:39
+msgid "mois de prévision"
+msgstr ""
+
+#: templates/dashboard/decideur.html:45
+msgid "Aucune prévision disponible pour le moment"
+msgstr ""
+
+#: templates/dashboard/decideur.html:46 templates/predictions/nouvelle.html:7
+msgid "Générer une prévision"
+msgstr ""
+
+#: templates/dashboard/decideur.html:52
+msgid "Voir les rapports"
+msgstr ""
+
+#: templates/dashboard/decideur.html:64
+#, python-format
+msgid "Taux prévu (%%)"
+msgstr ""
+
+#: templates/datasets/importer.html:3
+#: templates/datasets/liste_observations.html:44
+msgid "Importer un dataset"
+msgstr ""
+
+#: templates/datasets/importer.html:7
+msgid "Importer un nouveau dataset"
+msgstr ""
+
+#: templates/datasets/importer.html:13
+msgid "Colonnes attendues"
+msgstr ""
+
+#: templates/datasets/importer.html:18
+msgid ""
+"Je confirme vouloir importer ce fichier après vérification du rapport "
+"d'analyse ci-dessous."
+msgstr ""
+
+#: templates/datasets/importer.html:21
+msgid "Analyser puis importer"
+msgstr ""
+
+#: templates/datasets/importer.html:24
+msgid ""
+"Astuce : laissez la case décochée pour analyser le fichier sans l'importer, "
+"puis cochez-la et soumettez à nouveau une fois le rapport vérifié."
+msgstr ""
+
+#: templates/datasets/importer.html:30
+msgid "Résultat de l'analyse"
+msgstr ""
+
+#: templates/datasets/importer.html:32
+#: templates/datasets/liste_datasets.html:10
+msgid "Lignes"
+msgstr ""
+
+#: templates/datasets/importer.html:33
+msgid "Colonnes"
+msgstr ""
+
+#: templates/datasets/importer.html:34
+msgid "Chapitres détectés"
+msgstr ""
+
+#: templates/datasets/importer.html:35
+msgid "Doublons"
+msgstr ""
+
+#: templates/datasets/importer.html:37
+msgid "Colonnes détectées"
+msgstr ""
+
+#: templates/datasets/importer.html:38
+msgid "Période couverte"
+msgstr ""
+
+#: templates/datasets/importer.html:42
+msgid "Erreurs détectées"
+msgstr ""
+
+#: templates/datasets/importer.html:48
+msgid "Avertissements"
+msgstr ""
+
+#: templates/datasets/importer.html:53
+msgid ""
+"Le fichier est valide. Cliquez sur « Confirmer l'import » pour l'enregistrer."
+msgstr ""
+
+#: templates/datasets/liste_datasets.html:3
+#: templates/datasets/liste_datasets.html:4
+#: templates/datasets/liste_datasets.html:6
+msgid "Historique des imports"
+msgstr ""
+
+#: templates/datasets/liste_datasets.html:10
+msgid "Fichier"
+msgstr ""
+
+#: templates/datasets/liste_datasets.html:10
+msgid "Importé par"
+msgstr ""
+
+#: templates/datasets/liste_datasets.html:10
+#: templates/datasets/liste_observations.html:11
+msgid "Période"
+msgstr ""
+
+#: templates/datasets/liste_datasets.html:20
+msgid "Archivé"
+msgstr ""
+
+#: templates/datasets/liste_datasets.html:23
+msgid "Aucun dataset importé pour le moment."
+msgstr ""
+
+#: templates/datasets/liste_observations.html:9
+msgid "Taux moyen"
+msgstr ""
+
+#: templates/datasets/liste_observations.html:10
+msgid "Taux min / max"
+msgstr ""
+
+#: templates/datasets/liste_observations.html:19
+msgid "Tous les chapitres"
+msgstr ""
+
+#: templates/datasets/liste_observations.html:26
+#: templates/predictions/historique.html:26
+msgid "Filtrer"
+msgstr ""
+
+#: templates/datasets/liste_observations.html:27
+#: templates/predictions/nouvelle.html:48
+msgid "Exporter CSV"
+msgstr ""
+
+#: templates/datasets/liste_observations.html:35
+msgid "Mois"
+msgstr ""
+
+#: templates/datasets/liste_observations.html:35
+msgid "Taux d'engagement AE"
+msgstr ""
+
+#: templates/datasets/liste_observations.html:44
+msgid "Aucune donnée disponible."
+msgstr ""
+
+#: templates/errors/403.html:3 templates/errors/403.html:7
+msgid "Accès refusé"
+msgstr ""
+
+#: templates/errors/403.html:8
+msgid "Vous n'avez pas les droits nécessaires pour accéder à cette page."
+msgstr ""
+
+#: templates/errors/403.html:9 templates/errors/404.html:9
+#: templates/errors/500.html:9
+msgid "Retour à l'accueil"
+msgstr ""
+
+#: templates/errors/404.html:3 templates/errors/404.html:7
+msgid "Page introuvable"
+msgstr ""
+
+#: templates/errors/404.html:8
+msgid "La page que vous recherchez n'existe pas ou a été déplacée."
+msgstr ""
+
+#: templates/errors/500.html:3
+msgid "Erreur serveur"
+msgstr ""
+
+#: templates/errors/500.html:7
+msgid "Une erreur est survenue"
+msgstr ""
+
+#: templates/errors/500.html:8
+msgid ""
+"Une erreur est survenue lors du traitement de votre demande. Veuillez "
+"réessayer."
+msgstr ""
+
+#: templates/forecasting/comparaison.html:4
+msgid "Comparaison"
+msgstr ""
+
+#: templates/forecasting/comparaison.html:7
+msgid "Analyse des performances des modèles"
+msgstr ""
+
+#: templates/forecasting/comparaison.html:11
+msgid "Période d'entraînement"
+msgstr ""
+
+#: templates/forecasting/comparaison.html:12
+msgid "Période de test"
+msgstr ""
+
+#: templates/forecasting/comparaison.html:40
+msgid "Comparaison MAE"
+msgstr ""
+
+#: templates/forecasting/comparaison.html:41
+msgid "Comparaison RMSE"
+msgstr ""
+
+#: templates/forecasting/comparaison.html:42
+msgid "Comparaison R²"
+msgstr ""
+
+#: templates/forecasting/comparaison.html:43
+msgid "Comparaison MAPE"
+msgstr ""
+
+#: templates/forecasting/comparaison.html:48
+msgid "Aucun entraînement disponible"
+msgstr ""
+
+#: templates/forecasting/comparaison.html:49
+msgid "Lancer l'entraînement"
+msgstr ""
+
+#: templates/forecasting/entrainement.html:4
+msgid "Entraînement"
+msgstr ""
+
+#: templates/forecasting/entrainement.html:11
+msgid "lignes"
+msgstr ""
+
+#: templates/forecasting/entrainement.html:11
+msgid "Aucun dataset actif"
+msgstr ""
+
+#: templates/forecasting/entrainement.html:17
+msgid "Lancer l'entraînement des 4 modèles"
+msgstr ""
+
+#: templates/forecasting/entrainement.html:24
+msgid ""
+"Entraînement en cours (XGBoost, LightGBM, LSTM, ARIMA)... Cette opération "
+"peut prendre plusieurs minutes, notamment pour le LSTM. Merci de ne pas "
+"fermer cette page."
+msgstr ""
+
+#: templates/forecasting/entrainement.html:50
+msgid "Entraîné"
+msgstr ""
+
+#: templates/forecasting/entrainement.html:50
+msgid "Non entraîné"
+msgstr ""
+
+#: templates/forecasting/entrainement.html:52
+msgid "Dernier entraînement"
+msgstr ""
+
+#: templates/forecasting/entrainement.html:53
+msgid "Durée"
+msgstr ""
+
+#: templates/forecasting/entrainement.html:62
+msgid "Voir la comparaison détaillée"
+msgstr ""
+
+#: templates/forecasting/entrainement.html:71
+msgid "Entraînement en cours..."
+msgstr ""
+
+#: templates/partials/pagination.html:6
+msgid "Précédent"
+msgstr ""
+
+#: templates/partials/pagination.html:8
+msgid "Page"
+msgstr ""
+
+#: templates/partials/pagination.html:10
+msgid "Suivant"
+msgstr ""
+
+#: templates/predictions/historique.html:3
+#: templates/predictions/historique.html:7
+msgid "Historique des prévisions"
+msgstr ""
+
+#: templates/predictions/historique.html:18
+msgid "Tous"
+msgstr ""
+
+#: templates/predictions/historique.html:50
+msgid "Aucune prévision enregistrée."
+msgstr ""
+
+#: templates/predictions/nouvelle.html:4
+msgid "Nouvelle"
+msgstr ""
+
+#: templates/predictions/nouvelle.html:12
+msgid "Aucun modèle entraîné pour le moment"
+msgstr ""
+
+#: templates/predictions/nouvelle.html:38
+msgid "Générer la prévision"
+msgstr ""
+
+#: templates/predictions/nouvelle.html:46
+msgid "Résultat"
+msgstr ""
+
+#: templates/predictions/nouvelle.html:49
+msgid "Exporter Excel"
+msgstr ""
+
+#: templates/predictions/nouvelle.html:58
+msgid "Taux prévu"
+msgstr ""

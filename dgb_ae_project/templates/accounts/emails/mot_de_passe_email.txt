@@ -1,0 +1,11 @@
+Bonjour {{ user.get_full_name|default:user.username }},
+
+Vous avez demandé la réinitialisation de votre mot de passe sur la plateforme de prévision du taux d'engagement des AE (DGB/MINFI).
+
+Cliquez sur le lien ci-dessous pour choisir un nouveau mot de passe :
+{{ protocol }}://{{ domain }}{% url 'accounts:mot_de_passe_confirmer' uidb64=uid token=token %}
+
+Si vous n'êtes pas à l'origine de cette demande, ignorez simplement cet email.
+
+Cordialement,
+Direction Générale du Budget — MINFI

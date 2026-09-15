@@ -1,0 +1,56 @@
+{% extends "base_public.html" %}
+{% load i18n %}
+{% block titre %}{% trans "Inscription" %}{% endblock %}
+{% block contenu %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="carte-dgb p-4 p-md-5">
+        <h3 class="text-center mb-1">{% trans "Inscrire un nouvel utilisateur" %}</h3>
+        <p class="text-center text-muted mb-4">{% trans "Le rôle par défaut est Décideur — modifiable ensuite depuis la gestion des utilisateurs." %}</p>
+        <form method="post" novalidate>
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">{{ form.first_name.label }}</label>
+              {{ form.first_name }}
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">{{ form.last_name.label }}</label>
+              {{ form.last_name }}
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">{{ form.username.label }}</label>
+            {{ form.username }}
+            {% if form.username.errors %}<div class="text-danger small">{{ form.username.errors }}</div>{% endif %}
+          </div>
+          <div class="mb-3">
+            <label class="form-label">{{ form.email.label }}</label>
+            {{ form.email }}
+            {% if form.email.errors %}<div class="text-danger small">{{ form.email.errors }}</div>{% endif %}
+          </div>
+          <div class="mb-3">
+            <label class="form-label">{{ form.service.label }}</label>
+            {{ form.service }}
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">{{ form.password1.label }}</label>
+              {{ form.password1 }}
+              {% if form.password1.errors %}<div class="text-danger small">{{ form.password1.errors }}</div>{% endif %}
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">{{ form.password2.label }}</label>
+              {{ form.password2 }}
+              {% if form.password2.errors %}<div class="text-danger small">{{ form.password2.errors }}</div>{% endif %}
+            </div>
+          </div>
+          <button type="submit" class="btn btn-vert-citron w-100">{% trans "Créer le compte" %}</button>
+        </form>
+        <p class="text-center small mt-4"><a href="{% url 'accounts:liste_utilisateurs' %}">{% trans "Retour à la liste des utilisateurs" %}</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

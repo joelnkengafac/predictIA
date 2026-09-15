@@ -1,0 +1,42 @@
+{% extends "base_app.html" %}
+{% load i18n %}
+{% block titre %}{% trans "Mon profil" %}{% endblock %}
+{% block fil_ariane %}{% trans "Profil" %}{% endblock %}
+{% block contenu %}
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+    <div class="carte-dgb p-4 p-md-5">
+      <h4 class="mb-4"><i class="bi bi-person-circle texte-accent"></i> {% trans "Mon profil" %}</h4>
+      <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">{{ form.first_name.label }}</label>
+            {{ form.first_name }}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">{{ form.last_name.label }}</label>
+            {{ form.last_name }}
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">{{ form.email.label }}</label>
+          {{ form.email }}
+          {% if form.email.errors %}<div class="text-danger small">{{ form.email.errors }}</div>{% endif %}
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">{{ form.telephone.label }}</label>
+            {{ form.telephone }}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">{{ form.service.label }}</label>
+            {{ form.service }}
+          </div>
+        </div>
+        <button type="submit" class="btn btn-vert-citron">{% trans "Enregistrer les modifications" %}</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

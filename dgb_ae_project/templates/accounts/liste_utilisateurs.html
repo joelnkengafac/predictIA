@@ -1,0 +1,43 @@
+{% extends "base_app.html" %}
+{% load i18n %}
+{% block titre %}{% trans "Utilisateurs" %}{% endblock %}
+{% block fil_ariane %}{% trans "Administration" %} / {% trans "Utilisateurs" %}{% endblock %}
+{% block contenu %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h4 class="mb-0"><i class="bi bi-people texte-accent"></i> {% trans "Gestion des utilisateurs" %}</h4>
+  <a href="{% url 'accounts:creer_utilisateur' %}" class="btn btn-vert-citron"><i class="bi bi-plus-lg"></i> {% trans "Nouvel utilisateur" %}</a>
+</div>
+<div class="carte-dgb p-3 mb-3">
+  <form method="get" class="d-flex gap-2">
+    <input type="text" name="q" class="form-control" placeholder="{% trans "Rechercher par nom d'utilisateur ou email..." %}" value="{{ recherche }}">
+    <button type="submit" class="btn btn-outline-secondary"><i class="bi bi-search"></i></button>
+  </form>
+</div>
+
+<div class="carte-dgb p-3">
+  <div class="table-responsive">
+    <table class="table table-dgb align-middle">
+      <thead><tr><th>{% trans "Utilisateur" %}</th><th>{% trans "Email" %}</th><th>{% trans "Rôle" %}</th><th>{% trans "Statut" %}</th><th>{% trans "Créé le" %}</th><th></th></tr></thead>
+      <tbody>
+        {% for u in page_obj %}
+        <tr>
+          <td>{{ u.get_full_name|default:u.username }}</td>
+          <td>{{ u.email }}</td>
+          <td><span class="badge badge-role-{{ u.role }}">{{ u.get_role_display }}</span></td>
+          <td>{% if u.is_active %}<span class="badge bg-success">{% trans "Actif" %}</span>{% else %}<span class="badge bg-secondary">{% trans "Désactivé" %}</span>{% endif %}</td>
+          <td>{{ u.date_creation|date:"d-m-Y" }}</td>
+          <td class="text-end">
+            <a href="{% url 'accounts:modifier_utilisateur' u.pk %}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></a>
+            <a href="{% url 'accounts:desactiver_utilisateur' u.pk %}" class="btn btn-sm btn-outline-warning"><i class="bi bi-power"></i></a>
+            <a href="{% url 'accounts:supprimer_utilisateur' u.pk %}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6" class="text-center text-muted py-4">{% trans "Aucun utilisateur trouvé." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include "partials/pagination.html" %}
+</div>
+{% endblock %}

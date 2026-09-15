@@ -1,0 +1,57 @@
+{% extends "base_app.html" %}
+{% load i18n %}
+{% block titre %}{% trans "Historique des prévisions" %}{% endblock %}
+{% block fil_ariane %}{% trans "Prévisions" %} / {% trans "Historique" %}{% endblock %}
+{% block contenu %}
+
+<h4 class="mb-4"><i class="bi bi-clock-history texte-accent"></i> {% trans "Historique des prévisions" %}</h4>
+
+<div class="carte-dgb p-3 mb-3">
+  <form method="get" class="row g-2 align-items-end">
+    <div class="col-md-3">
+      <label class="form-label small">{% trans "Chapitre" %}</label>
+      <input type="text" name="chapitre" class="form-control" value="{{ chapitre_filtre }}" placeholder="Ex : 3">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label small">{% trans "Modèle" %}</label>
+      <select name="modele" class="form-select">
+        <option value="">{% trans "Tous" %}</option>
+        <option value="XGBoost" {% if modele_filtre == "XGBoost" %}selected{% endif %}>XGBoost</option>
+        <option value="LightGBM" {% if modele_filtre == "LightGBM" %}selected{% endif %}>LightGBM</option>
+        <option value="LSTM" {% if modele_filtre == "LSTM" %}selected{% endif %}>LSTM</option>
+        <option value="ARIMA" {% if modele_filtre == "ARIMA" %}selected{% endif %}>ARIMA</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <button type="submit" class="btn btn-outline-secondary"><i class="bi bi-funnel"></i> {% trans "Filtrer" %}</button>
+      <a href="?{% if chapitre_filtre %}chapitre={{ chapitre_filtre }}&{% endif %}{% if modele_filtre %}modele={{ modele_filtre }}&{% endif %}export=csv" class="btn btn-outline-secondary"><i class="bi bi-filetype-csv"></i> CSV</a>
+      <a href="?{% if chapitre_filtre %}chapitre={{ chapitre_filtre }}&{% endif %}{% if modele_filtre %}modele={{ modele_filtre }}&{% endif %}export=xlsx" class="btn btn-vert-dore"><i class="bi bi-file-earmark-excel"></i> Excel</a>
+    </div>
+  </form>
+</div>
+
+<div class="carte-dgb p-3">
+  <div class="table-responsive">
+    <table class="table table-dgb align-middle">
+      <thead><tr><th>{% trans "Date" %}</th><th>{% trans "Chapitre" %}</th><th>{% trans "Modèle" %}</th><th>{% trans "Horizon" %}</th><th>{% trans "Utilisateur" %}</th><th></th></tr></thead>
+      <tbody>
+        {% for p in page_obj %}
+        <tr>
+          <td>{{ p.date_creation|date:"d-m-Y H:i" }}</td>
+          <td>{% trans "Chapitre" %} {{ p.chapitre }}</td>
+          <td>{{ p.modele_utilise }}</td>
+          <td>{{ p.horizon_mois }} {% trans "mois" %}</td>
+          <td>{{ p.utilisateur|default:"—" }}</td>
+          <td class="text-end">
+            <a href="{% url 'predictions:supprimer' p.pk %}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6" class="text-center text-muted py-4">{% trans "Aucune prévision enregistrée." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include "partials/pagination.html" %}
+</div>
+{% endblock %}

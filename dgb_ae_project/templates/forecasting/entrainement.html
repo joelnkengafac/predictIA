@@ -1,0 +1,77 @@
+{% extends "base_app.html" %}
+{% load i18n %}
+{% block titre %}{% trans "Entraîner les modèles" %}{% endblock %}
+{% block fil_ariane %}{% trans "Modèles" %} / {% trans "Entraînement" %}{% endblock %}
+{% block contenu %}
+
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+  <div>
+    <h4 class="mb-1"><i class="bi bi-cpu texte-accent"></i> {% trans "Entraîner les modèles" %}</h4>
+    <p class="text-muted mb-0">
+      {% trans "Dataset actif" %} : {% if dataset_actif %}<strong>{{ dataset_actif.nom_fichier }}</strong> ({{ dataset_actif.n_lignes }} {% trans "lignes" %}){% else %}<span class="text-danger">{% trans "Aucun dataset actif" %}</span>{% endif %}
+    </p>
+  </div>
+  <form method="post" action="{% url 'forecasting:lancer_entrainement' %}" id="formEntrainement">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-vert-citron" id="btnLancer" {% if not dataset_actif %}disabled{% endif %}>
+      <i class="bi bi-play-fill"></i> {% trans "Lancer l'entraînement des 4 modèles" %}
+    </button>
+  </form>
+</div>
+
+<div id="zoneChargement" class="alert alert-info d-none">
+  <div class="spinner-border spinner-border-sm chargement-spinner me-2" role="status"></div>
+  {% trans "Entraînement en cours (XGBoost, LightGBM, LSTM, ARIMA)... Cette opération peut prendre plusieurs minutes, notamment pour le LSTM. Merci de ne pas fermer cette page." %}
+</div>
+
+<div id="squelettesCartes" class="row g-3 d-none">
+  {% for i in "1234" %}
+  <div class="col-md-6 col-lg-3">
+    <div class="carte-dgb p-3 h-100">
+      <div class="skeleton skeleton-titre"></div>
+      <div class="skeleton skeleton-ligne" style="width:70%"></div>
+      <div class="skeleton skeleton-ligne" style="width:50%"></div>
+      <div class="skeleton skeleton-ligne" style="width:60%"></div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="row g-3" id="cartesReelles">
+  {% for carte in cartes_modeles %}
+  <div class="col-md-6 col-lg-3">
+    <div class="carte-dgb p-3 h-100 {% if carte.est_le_meilleur %}border border-2{% endif %}" {% if carte.est_le_meilleur %}style="border-color:#B7D64A!important;"{% endif %}>
+      <div class="d-flex justify-content-between align-items-start">
+        <h6 class="mb-2">{{ carte.nom }}</h6>
+        {% if carte.est_le_meilleur %}<span class="meilleur-modele-badge">{% trans "Meilleur" %}</span>{% endif %}
+      </div>
+      <p class="mb-1 small">
+        <strong>{% trans "Statut" %} :</strong>
+        {% if carte.statut == "Entraîné" %}<span class="text-success">{% trans "Entraîné" %}</span>{% elif carte.statut == "Non entraîné" %}<span class="text-muted">{% trans "Non entraîné" %}</span>{% else %}<span class="text-danger">{{ carte.statut }}</span>{% endif %}
+      </p>
+      {% if carte.date %}<p class="mb-1 small"><strong>{% trans "Dernier entraînement" %} :</strong> {{ carte.date|date:"d-m-Y H:i" }}</p>{% endif %}
+      {% if carte.duree %}<p class="mb-1 small"><strong>{% trans "Durée" %} :</strong> {{ carte.duree|floatformat:1 }} s</p>{% endif %}
+      {% if carte.mape %}<p class="mb-0 small"><strong>MAPE :</strong> {{ carte.mape|floatformat:2 }}%</p>{% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% if derniere_session %}
+<div class="text-center mt-4">
+  <a href="{% url 'forecasting:comparaison' %}" class="btn btn-outline-secondary"><i class="bi bi-bar-chart"></i> {% trans "Voir la comparaison détaillée" %}</a>
+</div>
+{% endif %}
+
+{% endblock %}
+{% block extra_js %}
+<script>
+document.getElementById('formEntrainement').addEventListener('submit', function () {
+  document.getElementById('btnLancer').disabled = true;
+  document.getElementById('btnLancer').innerHTML = "{% trans 'Entraînement en cours...' %}";
+  document.getElementById('zoneChargement').classList.remove('d-none');
+  document.getElementById('squelettesCartes').classList.remove('d-none');
+  document.getElementById('cartesReelles').classList.add('d-none');
+});
+</script>
+{% endblock %}

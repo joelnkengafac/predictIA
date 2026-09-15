@@ -1,0 +1,10 @@
+{% extends "base_public.html" %}
+{% block titre %}Email envoyé{% endblock %}
+{% block contenu %}
+<div class="container py-5 text-center">
+  <i class="bi bi-envelope-check display-1 texte-accent"></i>
+  <h3 class="mt-3">Email envoyé</h3>
+  <p class="text-muted">Si un compte existe avec cette adresse, un lien de réinitialisation vient de vous être envoyé.</p>
+  <a href="{% url 'accounts:connexion' %}" class="btn btn-vert-citron mt-2">Retour à la connexion</a>
+</div>
+{% endblock %}

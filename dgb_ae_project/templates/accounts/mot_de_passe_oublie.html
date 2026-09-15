@@ -1,0 +1,20 @@
+{% extends "base_public.html" %}
+{% block titre %}Mot de passe oublié{% endblock %}
+{% block contenu %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+      <div class="carte-dgb p-4 p-md-5">
+        <h3 class="text-center mb-1">Mot de passe oublié</h3>
+        <p class="text-center text-muted mb-4">Recevez un lien de réinitialisation par email.</p>
+        <form method="post" novalidate>
+          {% csrf_token %}
+          {{ form.email }}
+          <button type="submit" class="btn btn-vert-citron w-100 mt-3">Envoyer le lien</button>
+        </form>
+        <p class="text-center small mt-4"><a href="{% url 'accounts:connexion' %}">Retour à la connexion</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

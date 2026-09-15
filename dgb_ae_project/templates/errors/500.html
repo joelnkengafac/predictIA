@@ -1,0 +1,11 @@
+{% extends "base_public.html" %}
+{% load i18n %}
+{% block titre %}{% trans "Erreur serveur" %}{% endblock %}
+{% block contenu %}
+<div class="container py-5 text-center">
+  <i class="bi bi-exclamation-octagon display-1 text-danger"></i>
+  <h1 class="mt-3">{% trans "Une erreur est survenue" %}</h1>
+  <p class="lead text-muted">{% trans "Une erreur est survenue lors du traitement de votre demande. Veuillez réessayer." %}</p>
+  <a href="{% url 'core:accueil' %}" class="btn btn-vert-citron mt-2">{% trans "Retour à l'accueil" %}</a>
+</div>
+{% endblock %}

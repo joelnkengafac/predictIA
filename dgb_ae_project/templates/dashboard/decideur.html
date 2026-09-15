@@ -1,0 +1,104 @@
+{% extends "base_app.html" %}
+{% load i18n %}
+{% load filtres_dgb %}
+{% block titre %}{% trans "Tableau de bord Décideur" %}{% endblock %}
+{% block fil_ariane %}{% trans "Tableau de bord" %} / {% trans "Décideur" %}{% endblock %}
+{% block contenu %}
+
+{% if derniere_prediction %}
+<div class="row g-3 mb-4">
+  <div class="col-md-3 col-6">
+    <div class="kpi-carte">
+      <div class="kpi-label">{% trans "Taux actuel" %}</div>
+      <div class="kpi-valeur">{{ taux_actuel|pourcentage:1 }}%</div>
+    </div>
+  </div>
+  <div class="col-md-3 col-6">
+    <div class="kpi-carte dore">
+      <div class="kpi-label">{% trans "Taux prévisionnel" %}</div>
+      <div class="kpi-valeur">{{ derniere_prediction.valeurs_predites.0|pourcentage:1 }}%</div>
+    </div>
+  </div>
+  <div class="col-md-3 col-6">
+    <div class="kpi-carte">
+      <div class="kpi-label">{% trans "Tendance" %}</div>
+      <div class="kpi-valeur fs-4">
+        {% if tendance == "Hausse" %}<i class="bi bi-arrow-up-circle text-success"></i>{% elif tendance == "Baisse" %}<i class="bi bi-arrow-down-circle text-danger"></i>{% else %}<i class="bi bi-dash-circle text-secondary"></i>{% endif %}
+        {{ tendance|default:"—" }}
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 col-6">
+    <div class="kpi-carte dore">
+      <div class="kpi-label">{% trans "Modèle recommandé" %}</div>
+      <div class="kpi-valeur fs-5">{{ session_active.meilleur_modele }}</div>
+    </div>
+  </div>
+  <div class="col-md-3 col-6">
+    <div class="kpi-carte">
+      <div class="kpi-label">{% trans "Niveau de performance" %}</div>
+      <div class="kpi-valeur fs-5">{{ niveau_performance }}</div>
+    </div>
+  </div>
+</div>
+
+{% if chapitres_a_surveiller %}
+<div class="carte-dgb p-4 mb-4">
+  <h5 class="mb-3"><i class="bi bi-exclamation-triangle texte-dore"></i> {% trans "Chapitres nécessitant une attention particulière" %}</h5>
+  <p class="text-muted small mb-3">{% trans "Chapitres dont le dernier taux d'engagement observé est parmi les plus faibles — un signal à examiner, pas une conclusion automatique." %}</p>
+  <div class="table-responsive">
+    <table class="table table-dgb table-sm align-middle mb-0">
+      <thead><tr><th>{% trans "Chapitre" %}</th><th>{% trans "Dernier taux observé" %}</th><th>{% trans "Date" %}</th></tr></thead>
+      <tbody>
+        {% for c in chapitres_a_surveiller %}
+        <tr>
+          <td>{% trans "Chapitre" %} {{ c.chapitre }}</td>
+          <td><span class="badge bg-warning text-dark">{{ c.taux|pourcentage:2 }}%</span></td>
+          <td>{{ c.date|date:"m-Y" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+
+<div class="carte-dgb p-4 mb-4">
+  <h5 class="mb-3"><i class="bi bi-graph-up-arrow texte-accent"></i> {% trans "Chapitre" %} {{ derniere_prediction.chapitre }} — {{ derniere_prediction.horizon_mois }} {% trans "mois de prévision" %}</h5>
+  <canvas id="graphiqueDecideur" height="90"></canvas>
+</div>
+{% else %}
+<div class="carte-dgb p-5 text-center">
+  <i class="bi bi-graph-up display-4 texte-accent"></i>
+  <h5 class="mt-3">{% trans "Aucune prévision disponible pour le moment" %}</h5>
+  <a href="{% url 'predictions:nouvelle' %}" class="btn btn-vert-citron mt-2">{% trans "Générer une prévision" %}</a>
+</div>
+{% endif %}
+
+<div class="text-center">
+  <a href="{% url 'predictions:nouvelle' %}" class="btn btn-vert-citron"><i class="bi bi-graph-up-arrow"></i> {% trans "Nouvelle prévision" %}</a>
+  <a href="{% url 'predictions:historique' %}" class="btn btn-outline-secondary"><i class="bi bi-file-earmark-text"></i> {% trans "Voir les rapports" %}</a>
+</div>
+
+{% endblock %}
+{% block extra_js %}
+{% if derniere_prediction %}
+<script>
+new Chart(document.getElementById('graphiqueDecideur'), {
+  type: 'line',
+  data: {
+    labels: {{ derniere_prediction.dates_predites|safe }},
+    datasets: [{
+      label: '{% trans "Taux prévu (%)" %}',
+      data: {{ derniere_prediction.valeurs_predites|safe }}.map(v => v * 100),
+      borderColor: '#C9A430',
+      backgroundColor: 'rgba(201,164,48,0.15)',
+      tension: 0.35,
+      fill: true,
+    }]
+  },
+  options: { responsive: true, plugins: { legend: { display: true } } }
+});
+</script>
+{% endif %}
+{% endblock %}

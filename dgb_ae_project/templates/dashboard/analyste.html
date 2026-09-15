@@ -1,0 +1,140 @@
+{% extends "base_app.html" %}
+{% load i18n %}
+{% load filtres_dgb %}
+{% block titre %}{% trans "Tableau de bord Analyste" %}{% endblock %}
+{% block fil_ariane %}{% trans "Tableau de bord" %} / {% trans "Analyste" %}{% endblock %}
+{% block contenu %}
+{% trans "Aucun" as txt_aucun %}
+
+<div class="row g-3 mb-4">
+  <div class="col-md-3 col-6">
+    <div class="kpi-carte">
+      <div class="kpi-label">{% trans "Dataset actif" %}</div>
+      <div class="kpi-valeur fs-6">{{ dataset_actif.nom_fichier|default:txt_aucun }}</div>
+      {% if dataset_actif %}<div class="text-muted small">{{ dataset_actif.periode_min }} → {{ dataset_actif.periode_max }}</div>{% endif %}
+    </div>
+  </div>
+  <div class="col-md-3 col-6">
+    <div class="kpi-carte dore">
+      <div class="kpi-label">{% trans "Observations" %}</div>
+      <div class="kpi-valeur">{{ n_observations }}</div>
+    </div>
+  </div>
+  <div class="col-md-3 col-6">
+    <div class="kpi-carte">
+      <div class="kpi-label">{% trans "Chapitres" %}</div>
+      <div class="kpi-valeur">{{ n_chapitres }}</div>
+    </div>
+  </div>
+  <div class="col-md-3 col-6">
+    <div class="kpi-carte dore">
+      <div class="kpi-label">{% trans "Meilleur modèle" %}</div>
+      <div class="kpi-valeur fs-5">{{ session_active.meilleur_modele|default:"—" }}</div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-4 col-6">
+    <div class="kpi-carte">
+      <div class="kpi-label">{% trans "Taux moyen" %}</div>
+      <div class="kpi-valeur">{{ stats_globales.taux_moyen|pourcentage:2|default:"—" }}{% if stats_globales.taux_moyen %}%{% endif %}</div>
+    </div>
+  </div>
+  <div class="col-md-4 col-6">
+    <div class="kpi-carte dore">
+      <div class="kpi-label">{% trans "Taux minimum" %}</div>
+      <div class="kpi-valeur">{{ stats_globales.taux_min|pourcentage:2|default:"—" }}{% if stats_globales.taux_min %}%{% endif %}</div>
+    </div>
+  </div>
+  <div class="col-md-4 col-6">
+    <div class="kpi-carte">
+      <div class="kpi-label">{% trans "Taux maximum" %}</div>
+      <div class="kpi-valeur">{{ stats_globales.taux_max|pourcentage:2|default:"—" }}{% if stats_globales.taux_max %}%{% endif %}</div>
+    </div>
+  </div>
+</div>
+
+{% if evolution_mensuelle %}
+<div class="row g-3 mb-4">
+  <div class="col-lg-6">
+    <div class="carte-dgb p-3">
+      <h6 class="text-center">{% trans "Évolution mensuelle (taux moyen, tous chapitres)" %}</h6>
+      <canvas id="graphEvolutionMensuelle"></canvas>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="carte-dgb p-3">
+      <h6 class="text-center">{% trans "Comparaison entre chapitres (taux moyen)" %}</h6>
+      <canvas id="graphParChapitre"></canvas>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<div class="row g-3">
+  <div class="col-lg-7">
+    <div class="carte-dgb p-4">
+      <h5 class="mb-3"><i class="bi bi-bar-chart texte-accent"></i> {% trans "Performance des modèles" %}</h5>
+      {% if evaluations %}
+      <div class="table-responsive">
+        <table class="table table-dgb table-sm align-middle">
+          <thead><tr><th>{% trans "Modèle" %}</th><th>MAE</th><th>RMSE</th><th>R²</th><th>MAPE</th></tr></thead>
+          <tbody>
+            {% for e in evaluations %}
+            <tr class="{% if e.est_le_meilleur %}table-success{% endif %}">
+              <td>{{ e.nom_modele }} {% if e.est_le_meilleur %}<span class="meilleur-modele-badge">{% trans "Meilleur" %}</span>{% endif %}</td>
+              <td>{{ e.mae|floatformat:4 }}</td>
+              <td>{{ e.rmse|floatformat:4 }}</td>
+              <td>{{ e.r2|floatformat:4 }}</td>
+              <td>{{ e.mape|floatformat:2 }}%</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <a href="{% url 'forecasting:diagnostic_serie' %}" class="btn btn-outline-secondary btn-sm mb-2"><i class="bi bi-activity"></i> {% trans "Diagnostic ADF/ACF/PACF" %}</a>
+      {% else %}
+      <p class="text-muted">{% trans "Aucun modèle entraîné pour le moment." %}</p>
+      {% endif %}
+      <a href="{% url 'forecasting:entrainement' %}" class="btn btn-vert-citron btn-sm">{% trans "Entraîner les modèles" %}</a>
+    </div>
+  </div>
+  <div class="col-lg-5">
+    <div class="carte-dgb p-4">
+      <h5 class="mb-3"><i class="bi bi-clock-history texte-dore"></i> {% trans "Mes prévisions récentes" %}</h5>
+      <ul class="list-group list-group-flush">
+        {% for p in mes_predictions_recentes %}
+        <li class="list-group-item">{% trans "Chapitre" %} {{ p.chapitre }} — {{ p.modele_utilise }} — {{ p.horizon_mois }} {% trans "mois" %}</li>
+        {% empty %}
+        <li class="list-group-item text-muted">{% trans "Aucune prévision récente." %}</li>
+        {% endfor %}
+      </ul>
+      <a href="{% url 'predictions:nouvelle' %}" class="btn btn-vert-dore btn-sm mt-3">{% trans "Nouvelle prévision" %}</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+{% if evolution_mensuelle %}
+<script>
+const labelsMois = [{% for e in evolution_mensuelle %}"{{ e.mois|date:'m-Y' }}",{% endfor %}];
+const valeursMois = [{% for e in evolution_mensuelle %}{{ e.taux_moyen|floatformat:6 }},{% endfor %}].map(v => v * 100);
+
+new Chart(document.getElementById('graphEvolutionMensuelle'), {
+  type: 'line',
+  data: { labels: labelsMois, datasets: [{ label: 'Taux moyen (%)', data: valeursMois, borderColor: '#8BC34A', backgroundColor: 'rgba(139,195,74,0.15)', tension: 0.3, fill: true, pointRadius: 0 }] },
+  options: { plugins: { legend: { display: false } }, scales: { x: { ticks: { maxTicksLimit: 12 } } } }
+});
+
+const labelsChapitres = [{% for e in evolution_par_chapitre %}"{{ e.chapitre }}",{% endfor %}];
+const valeursChapitres = [{% for e in evolution_par_chapitre %}{{ e.taux_moyen|floatformat:6 }},{% endfor %}].map(v => v * 100);
+
+new Chart(document.getElementById('graphParChapitre'), {
+  type: 'bar',
+  data: { labels: labelsChapitres, datasets: [{ label: 'Taux moyen (%)', data: valeursChapitres, backgroundColor: '#C9A430' }] },
+  options: { plugins: { legend: { display: false } } }
+});
+</script>
+{% endif %}
+{% endblock %}

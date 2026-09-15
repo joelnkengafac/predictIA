@@ -1,0 +1,53 @@
+{% extends "base_app.html" %}
+{% load i18n %}
+{% block titre %}{% trans "Tableau de bord Administrateur" %}{% endblock %}
+{% block fil_ariane %}{% trans "Tableau de bord" %} / {% trans "Administrateur" %}{% endblock %}
+{% block contenu %}
+
+<div class="row g-3 mb-4">
+  <div class="col-md-3 col-6"><div class="kpi-carte"><div class="kpi-label">{% trans "Utilisateurs" %}</div><div class="kpi-valeur">{{ n_utilisateurs }}</div></div></div>
+  <div class="col-md-3 col-6"><div class="kpi-carte dore"><div class="kpi-label">{% trans "Analystes" %}</div><div class="kpi-valeur">{{ n_analystes }}</div></div></div>
+  <div class="col-md-3 col-6"><div class="kpi-carte"><div class="kpi-label">{% trans "Décideurs" %}</div><div class="kpi-valeur">{{ n_decideurs }}</div></div></div>
+  <div class="col-md-3 col-6"><div class="kpi-carte dore"><div class="kpi-label">{% trans "Administrateurs" %}</div><div class="kpi-valeur">{{ n_admins }}</div></div></div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-3 col-6"><div class="kpi-carte"><div class="kpi-label">{% trans "Lignes du dataset" %}</div><div class="kpi-valeur">{{ n_lignes_dataset }}</div></div></div>
+  <div class="col-md-3 col-6"><div class="kpi-carte"><div class="kpi-label">{% trans "Chapitres" %}</div><div class="kpi-valeur">{{ n_chapitres }}</div></div></div>
+  <div class="col-md-3 col-6"><div class="kpi-carte dore"><div class="kpi-label">{% trans "Modèle sélectionné" %}</div><div class="kpi-valeur fs-4">{{ modele_selectionne|default:"—" }}</div></div></div>
+  <div class="col-md-3 col-6"><div class="kpi-carte"><div class="kpi-label">{% trans "Dernier import" %}</div><div class="kpi-valeur fs-5">{{ date_derniere_importation|date:"d-m-Y"|default:"—" }}</div></div></div>
+</div>
+
+<div class="row g-3">
+  <div class="col-lg-7">
+    <div class="carte-dgb p-4">
+      <h5 class="mb-3"><i class="bi bi-journal-text texte-accent"></i> {% trans "Activité récente" %}</h5>
+      <ul class="list-group list-group-flush">
+        {% for entree in activites_recentes %}
+        <li class="list-group-item d-flex justify-content-between">
+          <span>{{ entree.action }} {% if entree.utilisateur %}<span class="text-muted">— {{ entree.utilisateur }}</span>{% endif %}</span>
+          <span class="text-muted small">{{ entree.horodatage|date:"d-m-Y H:i" }}</span>
+        </li>
+        {% empty %}
+        <li class="list-group-item text-muted">{% trans "Aucune activité récente." %}</li>
+        {% endfor %}
+      </ul>
+      <a href="{% url 'core:journal_activite' %}" class="btn btn-outline-secondary btn-sm mt-3">{% trans "Voir tout le journal" %}</a>
+    </div>
+  </div>
+  <div class="col-lg-5">
+    <div class="carte-dgb p-4">
+      <h5 class="mb-3"><i class="bi bi-graph-up-arrow texte-dore"></i> {% trans "Dernière prévision" %}</h5>
+      {% if derniere_prediction %}
+        <p class="mb-1"><strong>{% trans "Chapitre" %} :</strong> {{ derniere_prediction.chapitre }}</p>
+        <p class="mb-1"><strong>{% trans "Modèle" %} :</strong> {{ derniere_prediction.modele_utilise }}</p>
+        <p class="mb-1"><strong>{% trans "Horizon" %} :</strong> {{ derniere_prediction.horizon_mois }} {% trans "mois" %}</p>
+        <p class="text-muted small mb-0">{% trans "Générée le" %} {{ derniere_prediction.date_creation|date:"d-m-Y H:i" }}</p>
+      {% else %}
+        <p class="text-muted">{% trans "Aucune prévision générée pour le moment." %}</p>
+      {% endif %}
+      <a href="{% url 'accounts:liste_utilisateurs' %}" class="btn btn-vert-citron btn-sm mt-3">{% trans "Gérer les utilisateurs" %}</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

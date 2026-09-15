@@ -1,0 +1,198 @@
+{% extends "base_app.html" %}
+{% load i18n %}
+{% load filtres_dgb %}
+{% block titre %}{% trans "Nouvelle prévision" %}{% endblock %}
+{% block fil_ariane %}{% trans "Prévisions" %} / {% trans "Nouvelle" %}{% endblock %}
+{% block contenu %}
+
+<h4 class="mb-4"><i class="bi bi-graph-up-arrow texte-accent"></i> {% trans "Générer une prévision" %}</h4>
+
+{% if not session %}
+<div class="carte-dgb p-5 text-center">
+  <i class="bi bi-cpu display-4 texte-accent"></i>
+  <h5 class="mt-3">{% trans "Aucun modèle entraîné pour le moment" %}</h5>
+</div>
+{% else %}
+
+<div class="carte-dgb p-4 mb-4">
+  <form method="post" class="row g-3">
+    {% csrf_token %}
+    <div class="col-md-4">
+      <label class="form-label">{{ form.chapitre.label }}</label>
+      {{ form.chapitre }}
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">{{ form.periode_historique.label }}</label>
+      {{ form.periode_historique }}
+      <div class="form-text">{{ form.periode_historique.help_text }}</div>
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">{{ form.horizon_predefini.label }}</label>
+      {{ form.horizon_predefini }}
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">{{ form.horizon_personnalise.label }}</label>
+      {{ form.horizon_personnalise }}
+      {% if form.horizon_personnalise.errors %}<div class="text-danger small">{{ form.horizon_personnalise.errors }}</div>{% endif %}
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">{{ form.modele.label }}</label>
+      {{ form.modele }}
+      <div class="form-text">{{ form.modele.help_text }}</div>
+    </div>
+    <div class="col-md-6 d-flex align-items-end">
+      <button type="submit" class="btn btn-vert-citron w-100"><i class="bi bi-magic"></i> {% trans "Générer la prévision" %}</button>
+    </div>
+  </form>
+</div>
+
+{% if resultat_prevision %}
+<div class="carte-dgb p-4 mb-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0">{% trans "Résultat" %} — {% trans "Chapitre" %} {{ resultat_prevision.chapitre }} ({{ resultat_prevision.modele_utilise }})</h5>
+    <div>
+      <a href="{% url 'predictions:exporter' resultat_prevision.pk 'csv' %}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-filetype-csv"></i> {% trans "Exporter CSV" %}</a>
+      <a href="{% url 'predictions:exporter' resultat_prevision.pk 'xlsx' %}" class="btn btn-sm btn-vert-dore"><i class="bi bi-file-earmark-excel"></i> {% trans "Exporter Excel" %}</a>
+    </div>
+  </div>
+  <canvas id="graphPrevision" height="90"></canvas>
+</div>
+
+<div class="carte-dgb p-4">
+  <div class="table-responsive">
+    <table class="table table-dgb align-middle">
+      <thead><tr><th>{% trans "Date" %}</th><th>{% trans "Chapitre" %}</th><th>{% trans "Taux prévu" %}</th></tr></thead>
+      <tbody>
+        {% for date, valeur in resultat_prevision.lignes %}
+        <tr><td>{{ date }}</td><td>{% trans "Chapitre" %} {{ resultat_prevision.chapitre }}</td><td>{{ valeur|pourcentage:2 }}%</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="carte-dgb p-4 mt-4">
+  <h5 class="mb-3"><i class="bi bi-chat-dots texte-accent"></i> {% trans "Demander à l'assistant IA" %}</h5>
+  <p class="text-muted small mb-3">
+    {% trans "Posez une question sur cette prévision (ex : « pourquoi ce taux baisse-t-il ? », « cette tendance est-elle fiable ? »). L'assistant se base uniquement sur les données affichées ci-dessus." %}
+  </p>
+
+  <div id="filConversation" class="mb-3" style="max-height: 360px; overflow-y: auto;">
+    {% for m in messages_ia %}
+    <div class="d-flex justify-content-end mb-2">
+      <div class="p-2 px-3 rounded-3" style="background:#E8F0D8; max-width:75%;">{{ m.question }}</div>
+    </div>
+    <div class="d-flex justify-content-start mb-3">
+      <div class="p-2 px-3 rounded-3" style="background:#F5F5F5; max-width:75%; white-space:pre-line;">{{ m.reponse }}</div>
+    </div>
+    {% empty %}
+    <p class="text-muted small" id="messageVide">{% trans "Aucune question posée pour le moment." %}</p>
+    {% endfor %}
+  </div>
+
+  <div id="zoneChargementIA" class="text-muted small mb-2 d-none">
+    <div class="spinner-border spinner-border-sm chargement-spinner me-1" role="status"></div>
+    {% trans "L'assistant réfléchit..." %}
+  </div>
+  <div id="erreurIA" class="alert alert-warning d-none py-2 small mb-2"></div>
+
+  <form id="formQuestionIA" class="d-flex gap-2">
+    {% csrf_token %}
+    <input type="text" id="champQuestionIA" class="form-control" maxlength="500"
+           placeholder="{% trans 'Écrivez votre question ici...' %}" required>
+    <button type="submit" class="btn btn-vert-citron"><i class="bi bi-send"></i></button>
+  </form>
+</div>
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block extra_js %}
+{% if resultat_prevision %}
+<script>
+const datesHistorique = {{ historique_recent|safe }}.map(o => o.date);
+const valeursHistorique = {{ historique_recent|safe }}.map(o => o.taux * 100);
+const datesPrevues = {{ resultat_prevision.dates_predites|safe }};
+const valeursPrevues = {{ resultat_prevision.valeurs_predites|safe }}.map(v => v * 100);
+
+new Chart(document.getElementById('graphPrevision'), {
+  type: 'line',
+  data: {
+    labels: datesHistorique.concat(datesPrevues),
+    datasets: [
+      { label: 'Historique réel', data: valeursHistorique, borderColor: '#97B238', backgroundColor: 'rgba(151,178,56,0.1)', tension: 0.3 },
+      { label: 'Prévision', data: Array(datesHistorique.length).fill(null).concat(valeursPrevues), borderColor: '#C9A430', backgroundColor: 'rgba(201,164,48,0.15)', borderDash: [6,4], tension: 0.3 }
+    ]
+  },
+  options: { responsive: true, plugins: { legend: { display: true } } }
+});
+</script>
+{% endif %}
+{% if resultat_prevision %}
+<script>
+(function () {
+  const form = document.getElementById('formQuestionIA');
+  const champ = document.getElementById('champQuestionIA');
+  const fil = document.getElementById('filConversation');
+  const chargement = document.getElementById('zoneChargementIA');
+  const erreurBox = document.getElementById('erreurIA');
+  const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+  const urlEnvoi = "{% url 'predictions:question_ia' resultat_prevision.pk %}";
+
+  function ajouterBulle(texte, estQuestion) {
+    const messageVide = document.getElementById('messageVide');
+    if (messageVide) messageVide.remove();
+    const ligne = document.createElement('div');
+    ligne.className = 'd-flex mb-' + (estQuestion ? '2' : '3') + (estQuestion ? ' justify-content-end' : ' justify-content-start');
+    const bulle = document.createElement('div');
+    bulle.className = 'p-2 px-3 rounded-3';
+    bulle.style.background = estQuestion ? '#E8F0D8' : '#F5F5F5';
+    bulle.style.maxWidth = '75%';
+    bulle.style.whiteSpace = 'pre-line';
+    bulle.textContent = texte;
+    ligne.appendChild(bulle);
+    fil.appendChild(ligne);
+    fil.scrollTop = fil.scrollHeight;
+  }
+
+  form.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    const question = champ.value.trim();
+    if (!question) return;
+
+    erreurBox.classList.add('d-none');
+    ajouterBulle(question, true);
+    champ.value = '';
+    champ.disabled = true;
+    chargement.classList.remove('d-none');
+
+    const donnees = new FormData();
+    donnees.append('question', question);
+
+    fetch(urlEnvoi, {
+      method: 'POST',
+      headers: { 'X-CSRFToken': csrfToken },
+      body: donnees,
+    })
+      .then(function (reponse) { return reponse.json().then(function (data) { return { statut: reponse.status, data: data }; }); })
+      .then(function (resultat) {
+        chargement.classList.add('d-none');
+        champ.disabled = false;
+        champ.focus();
+        if (resultat.statut !== 200) {
+          erreurBox.textContent = resultat.data.erreur || "{% trans 'Une erreur est survenue.' %}";
+          erreurBox.classList.remove('d-none');
+          return;
+        }
+        ajouterBulle(resultat.data.reponse, false);
+      })
+      .catch(function () {
+        chargement.classList.add('d-none');
+        champ.disabled = false;
+        erreurBox.textContent = "{% trans 'Impossible de contacter l\'assistant IA. Vérifiez votre connexion.' %}";
+        erreurBox.classList.remove('d-none');
+      });
+  });
+})();
+</script>
+{% endif %}
+{% endblock %}
